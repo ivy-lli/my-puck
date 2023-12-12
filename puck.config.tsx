@@ -1,10 +1,11 @@
 import { FieldLabel, type Config, DropZone } from "@measured/puck";
 import { Flex, FlexProps } from "./app/config/blocks/Flex";
+import { Section } from "./app/config/components/Section";
 
 type Props = {
   Flex: FlexProps;
-  HeadingBlock: { title: string };
-  Input: {placeholder: string, data: any};
+  Text: { text: string };
+  Input: {label: string, placeholder: string, data: any};
   FieldLabel: {label: string};
 };
 
@@ -15,21 +16,22 @@ export const config: Config<Props> = {
   },
   components: {
     Flex,
-    HeadingBlock: {
+    Text: {
       fields: {
-        title: { type: "text" },
+        text: { type: "textarea" },
       },
       defaultProps: {
-        title: "Heading",
+        text: "This is an Axon Ivy Dialog",
       },
-      render: ({ title }) => (
-        <div style={{ padding: 64 }}>
-          <h1>{title}</h1>
-        </div>
+      render: ({ text }) => (
+        <Section>
+          <p>{text}</p>
+        </Section>
       ),
     },
     Input: {
       fields: {
+        label: {type: "text"},
         placeholder: { type: "text"},
         data: {
           type: "external",
@@ -39,23 +41,13 @@ export const config: Config<Props> = {
           }
         }
       },
-      render: ({placeholder, data}) => (
-        <input style={{width: 'calc(100% - 8px)'}} placeholder={placeholder} defaultValue={data?.name ?? ''} />
+      render: ({label, placeholder, data}) => (
+        <label>
+          <span>{label}</span>
+          <input style={{width: 'calc(100% - 8px)'}} placeholder={placeholder} defaultValue={data?.name ?? ''} />
+        </label>
       )
     },
-    FieldLabel: {
-      fields: {
-        label: { type: "text" },
-      },
-      defaultProps: {
-        label: 'Empty label'
-      },
-      render: ({label}) => (
-        <FieldLabel label={label}>
-          <DropZone zone="field" />
-        </FieldLabel>
-      )
-    }
   },
 };
 
